@@ -1,11 +1,11 @@
 # 🖥️ MMBench-GUI: Hierarchical Multi-Platform Evaluation Framework for GUI Agents
 
 <p align="center">
-🤗 <a href="https://huggingface.co/datasets/OpenGVLab/MMBench-GUI">Evaluation Data</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://raw.githubusercontent.com/open-compass/MMBench-GUI/main/MMBench_GUI_report.pdf">Paper</a>&nbsp&nbsp | &nbsp&nbsp📢 <a href="#">Leaderboard (coming soon)</a>
+🤗 <a href="https://huggingface.co/datasets/OpenGVLab/MMBench-GUI">Evaluation Data</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://arxiv.org/pdf/2507.19478">Paper</a>&nbsp&nbsp | &nbsp&nbsp📢 <a href="#">Leaderboard (coming soon)</a>
 </p>
 
 > [!NOTE]
-> Our technical report has released in this repo! Meanwhile, arxiv version will be released on Sunday (ET).
+> Our technical report has released on [arXiv](https://arxiv.org/pdf/2507.19478).
 
 
 ## 📖 Introduction
@@ -35,14 +35,14 @@ MMBench-GUI is developed based on [VLMEvalkit](https://github.com/open-compass/V
 
 ### Todos
 
-* [ ] Release our technical reports where we have evaluated some GUI Agents on our benchmark.
+* [x] Release our technical reports where we have evaluated some GUI Agents on our benchmark.
 * [ ] Support `circular` mode for the evaluation of `GUIContentUnderstanding`.
 * [ ] Support `GUITaskAutomation` based on Docker for all platforms.
 * [ ] Support `GUITaskCollaboration` based on Docker for all platforms.
 
 
 ## 🪧 News
-* **2025.07.24** We release our technical report [Paper](https://raw.githubusercontent.com/open-compass/MMBench-GUI/main/MMBench_GUI_report.pdf)
+* **2025.07.24** We release our technical report [Paper](https://arxiv.org/pdf/2507.19478)
 * **2025.06.24** We have released the refactoring code for `L1-GUI Content Understanding` and `L2-GUI Element Grounding` tasks. Next, tasks of `L3-GUI Task Automation` and `L4-GUI Task Collaboration` will also be integrated into this codebase.
 * **2025.06.24** We have released the images and json files used in `L1-GUI Content Understanding` and `L2-GUI Element Grounding` tasks at [HuggingFace](https://huggingface.co/datasets/OpenGVLab/MMBench-GUI).
 
@@ -177,10 +177,10 @@ We would like to thank the following great works, which provided important refer
 If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil: :)
 
 ```Bibtex
-@misc{wang2025mmbenchgui,
+@article{wang2025mmbenchgui,
   title   = {MMBench-GUI: Hierarchical Multi-Platform Evaluation Framework for GUI Agents},
   author  = {Xuehui Wang, Zhenyu Wu, JingJing Xie, Zichen Ding, Bowen Yang, Zehao Li, Zhaoyang Liu, Qingyun Li, Xuan Dong, Zhe Chen, Weiyun Wang, Xiangyu Zhao, Jixuan Chen, Haodong Duan, Tianbao Xie, Shiqian Su, Chenyu Yang, Yue Yu, Yuan Huang, Yiqian Liu, Xiao Zhang, Xiangyu Yue, Weijie Su, Xizhou Zhu, Wei Shen, Jifeng Dai, Wenhai Wang},
-  note    = {Manuscript in preparation. Code available at \url{https://github.com/open-compass/MMBench-GUI}},
+  journal    = {arXiv preprint arXiv:2507.19478},
   year    = {2025}
 }
 ```
