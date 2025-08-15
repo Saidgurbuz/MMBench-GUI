@@ -112,7 +112,7 @@ Here, we evaluate the UI-TARS-1.5-7B model since we have integrated it in our be
 
 ```shell
 #Single GPU
-LMUData=/path/of/data python evaluate.py --config configs/config_local_uitars.py
+LMUData=/path/of/data python evaluate.py --config configs/config_local_uitars.json
 ```
 
 **You can refer to [Development Guidance](./DEVELOPMENT_GUIDANCE.md) for details about how to integrate and evaluate your model with MMBench-GUI.**
