@@ -31,7 +31,7 @@ from utils.misc import parser_answers_into_option
 
 logger = get_logger("RUN")
 
-if os.environ.get("L1_USE_WEIGHTED", 0) > 0:
+if os.environ.get("L1_USE_WEIGHTED", 1) > 0:
     from .matrics import level1_calculate_scores_weighted as level1_calculate_scores
 else:
     from .matrics import level1_calculate_scores_normal as level1_calculate_scores
