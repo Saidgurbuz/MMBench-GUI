@@ -4,6 +4,8 @@ import re, os
 from utils.misc import ensure_image_url, parser_answers_into_option
 import math
 from vlmeval.smp import LMUDataRoot
+from PIL import Image
+import json
 
 # ------------------------ constants, copied from official repo of uitars --------------------------
 IMAGE_FACTOR = 28
@@ -74,8 +76,59 @@ finished(content='xxx') # Use escape characters \\', \\", and \\n in content par
 {instruction}
 """
 
-GROUNDING_DOUBAO = """You are a GUI agent. You are given a task and your action history, with screenshots. You need to perform the next action to complete the task. \n\n## Output Format\n\nAction: ...\n\n\n## Action Space\nclick(point='<point>x1 y1</point>'')\n\n## User Instruction
-{instruction}"""
+GROUNDING_DOUBAO = """You are a GUI agent. You are given a task and your action history, with screenshots. You need to perform the next action to complete the task. \n\n Structured Screen Parsing Information (Use Alongside the Screenshot)
+
+You are given a structured parsing of the UI elements in the screenshot, formatted as JSON.  
+This parsing is intended to help you better understand the screen layout and identify elements.
+
+Each element in the `screen_elements` list includes:
+
+- **`"type"`** — The UI element category  
+  *(e.g., `"text"`, `"button"`, `"link"`, `"navigation_bar"`, etc.)*
+
+- **`"bbox"`** — The position of the element as pixel coordinates in the format:  
+  **`[top, left, bottom, right]`**  
+  where:
+  - **top** = distance in pixels from the top edge of the screenshot  
+  - **left** = distance in pixels from the left edge of the screenshot  
+  - **bottom** = distance in pixels from the top to the lower boundary of the element  
+  - **right** = distance in pixels from the left to the right boundary of the element  
+  *(All coordinates refer to the original screenshot image coordinate system.)*
+
+- **`"text"`** — Any visible text in the element (empty string if none)
+
+Moreover, first element of the `screen_elements` list provides the original image size for reference:
+- **`"image_size"`** — A dictionary with keys `"width"` and `"height"` indicating the original screenshot dimensions in pixels.
+- all other given pixel values are relative to this size.
+---
+
+### How to Use This Information
+- Utilize both the screenshot **and** the structured parsing to solve the task.
+- Use element types, positions, and text to help interpret or locate relevant UI components.
+- Bounding boxes indicate spatial relationships (e.g., above, below, next to).
+- Provided parsing might be incomplete or imperfect; use it as a guide, not an absolute truth.
+- If anything in the parsing contradicts the screenshot, **trust the screenshot**.
+
+### Output Rule
+Follow the task instructions exactly and provide **only the required final answer**.  
+Do **not** include or reference the JSON or your intermediate reasoning.
+
+---
+
+### screen_elements Example:
+[
+  {'image_size': {'width': 2560, 'height': 1440}}, # original image size for reference
+  {
+    "type": "button",
+    "bbox": [120, 40, 160, 200],
+    "text": "Submit"
+  },
+  {
+    "type": "text",
+    "bbox": [60, 30, 90, 300],
+    "text": "Enter Name:"
+  }
+]\n\n## Output Format\n\nAction: ...\n\n\n## Action Space\nclick(point='<point>x1 y1</point>'')"""
 
 
 # ------------------------ utils, copied from official repo of uitars --------------------------
@@ -275,15 +328,35 @@ def build_custom_prompt(line, dataset):
         line["image_path"],
     )
     instruction = line["instruction"]
+    
+    screen_parses_path = "/proj/docling-vision/users/said/webshot-dataset/output/screentag"
+    stem = os.path.splitext(os.path.basename(line["image_path"]))[0]
+    screen_parsing_json = os.path.join(screen_parses_path, f"{stem}.json")
+    
+    # load screen parsing
+    with open(screen_parsing_json, "r") as f:
+        screen_parsing = json.load(f)
+    
+    # get the image size from the image
+    with Image.open(tgt_path) as img:
+        width, height = img.size
+    # print(f'image path: {tgt_path}, width: {width}, height: {height}')
+    screen_parsing.insert(0, {"image_size": {"width": width, "height": height}})
+    
 
     if dataset == "GUIElementGrounding":
         msgs.append({"role": "user", "type": "image", "value": f"{tgt_path}"})
+
+        user_message = GROUNDING_DOUBAO
+        user_message += "\n\n## screen_elements: " + str(screen_parsing)
+        user_message += """\n\n## User Instruction
+""" + instruction
 
         msgs.append(
             {
                 "role": "user",
                 "type": "text",
-                "value": GROUNDING_DOUBAO.format(instruction=instruction),
+                "value": user_message,
             }
         )
         return msgs
