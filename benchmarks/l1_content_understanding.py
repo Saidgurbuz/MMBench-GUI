@@ -48,7 +48,7 @@ class GUIContentUnderstanding(ImageBaseDataset):
     MODALITY = "IMAGE"
     TYPE = "GUI_Content_Understanding"
     DATASET_URL = {
-        "MMBench-GUI_L1": "xxxxxxxxxxx.tsv",  # noqa
+        "MMBench-GUI_L1": "/proj/docling-vision/users/said/MMBench-GUI/mmbench/MMBENCH-GUI/L1_annotations.json",  # noqa
     }  # path
     DATASET_MD5 = {
         "MMBench-GUI_L1": "a9a4fd9eb1e4ae0355fee057bd55cbec",

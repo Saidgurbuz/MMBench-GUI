@@ -1,7 +1,7 @@
 {
     "model": {
         "uitars-1.5-7b-local": {
-            "model_path": "ByteDance-Seed/UI-TARS-1.5-7B",
+            "model_path": "/proj/docling-vision/users/said/MMBench-GUI/ByteDance-Seed/UI-TARS-1.5-7B",
             "generate_cfg": {
                 "max_new_tokens": 512
             },
@@ -25,11 +25,6 @@
         "GUIElementGrounding": {
             "mode": "all",
             "parse_function": "models.local_uitars.parse_grounding_response"
-        },
-        "GUIContentUnderstanding": {
-            "mode": "all",
-            "parse_function": "models.local_uitars.parse_understanding_response",
-            "match_mode": "exact_match"
         }
     }
 }

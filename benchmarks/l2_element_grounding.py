@@ -27,7 +27,7 @@ class GUIElementGrounding(ImageBaseDataset):
     MODALITY = "IMAGE"
     TYPE = "GUI_Element_Grounding"
     DATASET_URL = {
-        "MMBench-GUI_L2": "xxxxxx.tsv",  # noqa
+        "MMBench-GUI_L2": "/proj/docling-vision/users/said/MMBench-GUI/mmbench/MMBENCH-GUI/L2_annotations.json",  # noqa
     }  # path
     DATASET_MD5 = {
         "MMBench-GUI_L2": "a2e042302ac389299873a857b7370a35",
